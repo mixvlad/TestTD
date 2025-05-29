@@ -6,6 +6,10 @@ TagManager:
   tags:
   - gob
   - spawn
+  - platform
+  - occupied
+  - goob
+  - turret
   layers:
   - Default
   - TransparentFX
