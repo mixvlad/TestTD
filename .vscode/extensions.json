@@ -1,6 +1,6 @@
 {
     "recommendations": [
-      "visualstudiotoolsforunity.vstuc",
-      "anysphere.csharp"
+        "anysphere.csharp",
+        "visualstudiotoolsforunity.vstuc"
     ]
 }
