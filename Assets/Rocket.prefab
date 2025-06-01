@@ -187,6 +187,7 @@ GameObject:
   - component: {fileID: 5328426827686456594}
   - component: {fileID: 3624055981298068451}
   - component: {fileID: 684452377706204556}
+  - component: {fileID: 8640678491826649274}
   m_Layer: 0
   m_Name: Rocket
   m_TagString: turret
@@ -303,7 +304,23 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.1
   m_Center: {x: 0, y: 0.00079679076, z: -5.520235e-19}
+--- !u!114 &8640678491826649274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5977019458999684295}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 738f31e06cf7c4e8e908c3464eebe456, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 0}
+  core: {fileID: 2697617952663958069}
+  gun: {fileID: 3542408428170973012}
+  rotationSpeed: 5

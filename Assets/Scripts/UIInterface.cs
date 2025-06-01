@@ -7,7 +7,7 @@ public class UIInterface : MonoBehaviour
     public GameObject rocket;
     public GameObject gattling;
     public GameObject flamer;
-    
+
     public GameObject turretMenu;
     GameObject itemPrefab;
     GameObject focusObj;
@@ -42,7 +42,7 @@ public class UIInterface : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             focusObj = Instantiate(itemPrefab, hit.point, itemPrefab.transform.rotation);
-            focusObj.GetComponent<Collider>().enabled = false;
+            focusObj.GetComponent<BoxCollider>().enabled = false;
         }
     }
 
@@ -57,7 +57,7 @@ public class UIInterface : MonoBehaviour
     {
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            if(EventSystem.current.IsPointerOverGameObject())
+            if (EventSystem.current.IsPointerOverGameObject())
             {
                 return;
             }
@@ -86,7 +86,9 @@ public class UIInterface : MonoBehaviour
             {
                 hit.collider.gameObject.tag = "occupied";
                 focusObj.transform.position = hit.collider.gameObject.transform.position + new Vector3(0, hit.collider.gameObject.transform.localScale.y / 2, 0);
-                focusObj.GetComponent<Collider>().enabled = true;
+                focusObj.GetComponent<BoxCollider>().enabled = true;
+                focusObj.GetComponent<SphereCollider>().enabled = true;
+                focusObj.GetComponent<Shoot>().enabled = true;
             }
             else
             {

@@ -540,6 +540,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Destination: {fileID: 0}
+  enemyData: {fileID: 11400000, guid: cf2a25c2bc63d8446a6a4d0338c59ac3, type: 2}
 --- !u!136 &7329618120295184338
 CapsuleCollider:
   m_ObjectHideFlags: 0

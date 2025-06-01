@@ -17,6 +17,8 @@ public class Shoot : MonoBehaviour
     private float angle;
     private Quaternion gunTargetRotation;
     private float deltaTime;
+    private Quaternion coreStartRotation;
+    private Quaternion gunStartRotation;
 
     void Start()
     {
@@ -24,6 +26,9 @@ public class Shoot : MonoBehaviour
         coreTransform = core.transform;
         gunTransform = gun.transform;
         myTransform = transform;
+        coreStartRotation = coreTransform.rotation;
+        gunStartRotation = gunTransform.localRotation;
+
 
         // Предварительно создаем векторы
         targetDirection = Vector3.zero;
@@ -49,7 +54,12 @@ public class Shoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentTarget == null) return;
+        if (currentTarget == null)
+        {
+            coreTransform.rotation = Quaternion.Slerp(coreTransform.rotation, coreStartRotation, deltaTime);
+            gunTransform.localRotation = Quaternion.Slerp(gunTransform.localRotation, gunStartRotation, deltaTime);
+            return;
+        }
 
         deltaTime = Time.deltaTime * rotationSpeed;
 
