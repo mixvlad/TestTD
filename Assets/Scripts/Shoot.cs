@@ -5,9 +5,10 @@ public class Shoot : MonoBehaviour
     public GameObject bullet;
     public GameObject core;
     public GameObject gun;
-    public float rotationSpeed = 5f;
-
+    public TurretData turretData;
+    public AudioSource shootSound;
     private GameObject currentTarget;
+    private FindHome currentTargetScript;
     private Transform coreTransform;
     private Transform gunTransform;
     private Transform myTransform;
@@ -29,7 +30,6 @@ public class Shoot : MonoBehaviour
         coreStartRotation = coreTransform.rotation;
         gunStartRotation = gunTransform.localRotation;
 
-
         // Предварительно создаем векторы
         targetDirection = Vector3.zero;
         coreTargetDirection = Vector3.zero;
@@ -40,6 +40,7 @@ public class Shoot : MonoBehaviour
         if (other.CompareTag("enemy") && currentTarget == null)
         {
             currentTarget = other.gameObject;
+            currentTargetScript = currentTarget.GetComponent<FindHome>();
         }
     }
 
@@ -51,17 +52,41 @@ public class Shoot : MonoBehaviour
         }
     }
 
+    bool onCooldown = false;
+
+    void ResetCooldown()
+    {
+        onCooldown = false;
+    }
+
+    void ShootTarget()
+    {
+        if (currentTarget != null)
+        {
+            if (!onCooldown)
+            {
+                onCooldown = true;
+                Invoke("ResetCooldown", turretData.attackCooldown);
+                shootSound.Play();
+                if (Random.Range(0, 100) < turretData.accuracy)
+                {
+                    currentTargetScript.TakeDamage(turretData.damage);
+                }
+            }
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
+        deltaTime = Time.deltaTime * turretData.rotationSpeed;
+
         if (currentTarget == null)
         {
             coreTransform.rotation = Quaternion.Slerp(coreTransform.rotation, coreStartRotation, deltaTime);
             gunTransform.localRotation = Quaternion.Slerp(gunTransform.localRotation, gunStartRotation, deltaTime);
             return;
         }
-
-        deltaTime = Time.deltaTime * rotationSpeed;
 
         // Вычисляем направление к цели
         targetDirection = currentTarget.transform.position - myTransform.position;
@@ -82,6 +107,11 @@ public class Shoot : MonoBehaviour
             angle = Vector3.SignedAngle(coreTransform.forward, targetDirection, coreTransform.right);
             gunTargetRotation = Quaternion.Euler(angle, 0, 0);
             gunTransform.localRotation = Quaternion.Slerp(gunTransform.localRotation, gunTargetRotation, deltaTime);
+        }
+
+        if (gunTransform.localRotation.eulerAngles.x > 10 && gunTransform.localRotation.eulerAngles.x < 170)
+        {
+            ShootTarget();
         }
     }
 }

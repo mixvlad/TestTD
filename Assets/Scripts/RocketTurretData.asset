@@ -9,13 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70ab8c12979c1b447a4c031b20bf2867, type: 3}
-  m_Name: EnemyData
+  m_Script: {fileID: 11500000, guid: 12231f9ea63d944b4a8fccf26d952b28, type: 3}
+  m_Name: RocketTurretData
   m_EditorClassIdentifier: 
-  enemyName: Goob
-  maxHealth: 100
-  damage: 0
-  speed: 3
+  damage: 5
   attackRange: 0
-  attackCooldown: 0
-  attackDamage: 0
+  attackCooldown: 2
+  price: 0
+  rotationSpeed: 1.5
+  accuracy: 80
