@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9092796604069461715}
   - component: {fileID: 4209836280807339487}
   - component: {fileID: 1768430457666971854}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Gatling Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 712939761369668114}
   - component: {fileID: 6710736628082498913}
   - component: {fileID: 8767048287526607755}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Gatling Core
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -190,7 +190,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2545142080065939768}
   - component: {fileID: 4501095754565345694}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Gatling
   m_TagString: turret
   m_Icon: {fileID: 0}
@@ -231,7 +231,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 2.5, y: 2.5, z: 2.5}
   m_Center: {x: 0, y: 1, z: 0.16}
@@ -246,7 +246,7 @@ GameObject:
   - component: {fileID: 4255587410098595143}
   - component: {fileID: 9207497948957179402}
   - component: {fileID: 8521499803348313768}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Gatling Turret 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -335,7 +335,7 @@ GameObject:
   - component: {fileID: 3707100466064380438}
   - component: {fileID: 2355648295792110216}
   - component: {fileID: 734787411482615454}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -423,7 +423,7 @@ GameObject:
   - component: {fileID: 11739056403523395}
   - component: {fileID: 4032992601430053603}
   - component: {fileID: 7772146630394371868}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Gatling Turret 1.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -511,7 +511,7 @@ GameObject:
   - component: {fileID: 3464175366758722888}
   - component: {fileID: 6892359545545796330}
   - component: {fileID: 5459210249116967272}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Gatling Barrel 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -599,7 +599,7 @@ GameObject:
   - component: {fileID: 460884900182165256}
   - component: {fileID: 8674466823989904447}
   - component: {fileID: 393899552806743521}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Gattling Barrel 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -687,7 +687,7 @@ GameObject:
   - component: {fileID: 4873210862836310830}
   - component: {fileID: 482563731804431716}
   - component: {fileID: 5213485380855391162}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Bullet.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}

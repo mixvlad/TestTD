@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1863226349315345326}
   - component: {fileID: 4485432636273475428}
   - component: {fileID: -5087942601004908982}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Flamer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.024826827, y: 0.028226513, z: 0.03}
   m_Center: {x: 0, y: 0.009220851, z: 9.061744e-18}
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 5362913446959078516}
   - component: {fileID: 84050455366509682}
   - component: {fileID: 7450974309284101713}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Flame Core
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -210,7 +210,7 @@ GameObject:
   - component: {fileID: 2993597326397008701}
   - component: {fileID: 8390513690210712817}
   - component: {fileID: 633105151494029571}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Flame Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -42,7 +42,6 @@ public class UIInterface : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             focusObj = Instantiate(itemPrefab, hit.point, itemPrefab.transform.rotation);
-            focusObj.GetComponent<BoxCollider>().enabled = false;
         }
     }
 
@@ -73,7 +72,7 @@ public class UIInterface : MonoBehaviour
         {
             RaycastHit hit;
             Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~(1 << 9)))
             {
                 focusObj.transform.position = hit.point;
             }
@@ -82,7 +81,7 @@ public class UIInterface : MonoBehaviour
         {
             RaycastHit hit;
             Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-            if (Physics.Raycast(ray, out hit) && hit.collider.gameObject.CompareTag("platform") && hit.normal == new Vector3(0, 1, 0))
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~(1 << 9)) && hit.collider.gameObject.CompareTag("platform") && hit.normal == new Vector3(0, 1, 0))
             {
                 hit.collider.gameObject.tag = "occupied";
                 focusObj.transform.position = hit.collider.gameObject.transform.position + new Vector3(0, hit.collider.gameObject.transform.localScale.y / 2, 0);
