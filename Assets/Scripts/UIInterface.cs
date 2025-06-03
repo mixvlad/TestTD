@@ -84,7 +84,7 @@ public class UIInterface : MonoBehaviour
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~(1 << 9)) && hit.collider.gameObject.CompareTag("platform") && hit.normal == new Vector3(0, 1, 0))
             {
                 hit.collider.gameObject.tag = "occupied";
-                focusObj.transform.position = hit.collider.gameObject.transform.position + new Vector3(0, hit.collider.gameObject.transform.localScale.y / 2, 0);
+                focusObj.transform.position = hit.collider.gameObject.transform.position + new Vector3(0, hit.collider.gameObject.transform.localScale.y, 0);
                 focusObj.GetComponent<BoxCollider>().enabled = true;
                 focusObj.GetComponent<SphereCollider>().enabled = true;
                 focusObj.GetComponent<Shoot>().enabled = true;

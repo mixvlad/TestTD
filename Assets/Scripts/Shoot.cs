@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Shoot : MonoBehaviour
 {
-    public GameObject bullet;
+    public List<ParticleSystem> particleSystems;
+    public int particleCount = 100;
     public GameObject core;
     public GameObject gun;
     public TurretData turretData;
@@ -33,6 +35,10 @@ public class Shoot : MonoBehaviour
         // Предварительно создаем векторы
         targetDirection = Vector3.zero;
         coreTargetDirection = Vector3.zero;
+        foreach (var particleSystem in particleSystems)
+        {
+            particleSystem.Stop();
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -68,6 +74,10 @@ public class Shoot : MonoBehaviour
                 onCooldown = true;
                 Invoke("ResetCooldown", turretData.attackCooldown);
                 shootSound.Play();
+                foreach (var particleSystem in particleSystems)
+                {
+                    particleSystem.Emit(particleCount);
+                }
                 if (Random.Range(0, 100) < turretData.accuracy)
                 {
                     currentTargetScript.TakeDamage(turretData.damage);

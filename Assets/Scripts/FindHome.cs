@@ -33,6 +33,7 @@ public class FindHome : MonoBehaviour
         healthBar.value = currentHealth;
         if (currentHealth <= 0)
         {
+            LevelManager.EnemyKilled(transform.position + Vector3.up * 1f);
             Destroy(healthBar.gameObject);
             Destroy(gameObject);
         }
@@ -46,7 +47,7 @@ public class FindHome : MonoBehaviour
             ai.remainingDistance <= stoppingDistance &&
             ai.hasPath)
         {
-            LevelManager.EnemyKilled();
+            LevelManager.EnemyReachedHome(transform.position + Vector3.up * 1f);
             ai.ResetPath();
             Destroy(healthBar.gameObject);
             Destroy(gameObject, 0.1f);
