@@ -1,38 +1,114 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIInterface : MonoBehaviour
 {
-    public GameObject rocket;
-    public GameObject gattling;
-    public GameObject flamer;
+    public Shoot rocket;
+    public Shoot gattling;
+    public Shoot flamer;
+    public TMP_Text waveText;
+    public TMP_Text moneyText;
+    public TMP_Text healthText;
+    public Button pauseButton;
+    public Button normalSpeedButton;
+    public Button fastSpeedButton;
+    public Button veryFastSpeedButton;
+    public AudioSource wrongSound;
+    public TMP_Text upgradeButtonText;
 
     public GameObject turretMenu;
     GameObject itemPrefab;
     GameObject focusObj;
     private Camera mainCamera;
+    private Shoot currentClickedOnTurret;
+
 
     public void CreateRocket()
     {
-        itemPrefab = rocket;
-        CreateItem();
+        if (LevelManager.totalMoney >= rocket.turretData.price)
+        {
+            LevelManager.totalMoney -= rocket.turretData.price;
+            itemPrefab = rocket.gameObject;
+            CreateItem();
+        }
+        else
+        {
+            wrongSound.Play();
+        }
     }
     public void CreateFlamer()
     {
-        itemPrefab = flamer;
-        CreateItem();
+        if (LevelManager.totalMoney >= flamer.turretData.price)
+        {
+            LevelManager.totalMoney -= flamer.turretData.price;
+            itemPrefab = flamer.gameObject;
+            CreateItem();
+        }
+        else
+        {
+            wrongSound.Play();
+        }
     }
 
     public void CreateGatling()
     {
-        itemPrefab = gattling;
-        CreateItem();
+        if (LevelManager.totalMoney >= gattling.turretData.price)
+        {
+            LevelManager.totalMoney -= gattling.turretData.price;
+            itemPrefab = gattling.gameObject;
+            CreateItem();
+        }
+        else
+        {
+            wrongSound.Play();
+        }
     }
 
     public void CloseTurretMenu()
     {
         turretMenu.SetActive(false);
+        currentClickedOnTurret = null;
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+
+        Time.timeScale = 1;
+        LevelManager.levelEnded = false;
+        LevelManager.playerHealth = LevelManager.playerMaxHealth;
+        LevelManager.totalMoney = 200;
+        LevelManager.wavesEmitted = 0;
+        LevelManager.numberOfWaves = 3;
+        LevelManager.totalEnemies = 0;
+        LevelManager.nextWaveReady = false;
+        Time.timeScale = 1;
+    }
+
+    public void UpgradeTurret()
+    {
+        if (LevelManager.totalMoney >= currentClickedOnTurret.turretData.price)
+        {
+            LevelManager.totalMoney -= currentClickedOnTurret.turretData.price;
+            currentClickedOnTurret.turretData.damage *= 2;
+            currentClickedOnTurret.turretData.price *= 2;
+            upgradeButtonText.text = "Upgrade " + currentClickedOnTurret.turretData.price + "$";
+        }
+        else
+        {
+            wrongSound.Play();
+        }
+    }
+
+    public void SellTurret()
+    {
+        LevelManager.totalMoney += currentClickedOnTurret.turretData.price / 2;
+        Destroy(currentClickedOnTurret.gameObject, 0.1f);
+        CloseTurretMenu();
     }
 
     void CreateItem()
@@ -49,11 +125,29 @@ public class UIInterface : MonoBehaviour
     void Start()
     {
         mainCamera = Camera.main;
+        pauseButton.onClick.AddListener(() => LevelManager.OnSpeedChanged(0));
+        normalSpeedButton.onClick.AddListener(() => LevelManager.OnSpeedChanged(1));
+        fastSpeedButton.onClick.AddListener(() => LevelManager.OnSpeedChanged(5));
+        veryFastSpeedButton.onClick.AddListener(() => LevelManager.OnSpeedChanged(10));
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (LevelManager.wavesEmitted < LevelManager.numberOfWaves)
+        {
+            waveText.text = "🌊 " + (LevelManager.wavesEmitted + 1) + " / " + LevelManager.numberOfWaves;
+        }
+        moneyText.text = LevelManager.totalMoney + "$";
+        if (LevelManager.playerHealth <= 0)
+        {
+            healthText.text = "💀";
+        }
+        else
+        {
+            healthText.text = "❤️ " + LevelManager.playerHealth + " / " + LevelManager.playerMaxHealth;
+        }
+
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             if (EventSystem.current.IsPointerOverGameObject())
@@ -64,7 +158,9 @@ public class UIInterface : MonoBehaviour
             Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
             if (Physics.Raycast(ray, out hit) && hit.collider.gameObject.CompareTag("turret"))
             {
+                currentClickedOnTurret = hit.collider.gameObject.GetComponent<Shoot>();
                 turretMenu.transform.position = Mouse.current.position.ReadValue();
+                upgradeButtonText.text = "Upgrade " + currentClickedOnTurret.turretData.price + "$";
                 turretMenu.SetActive(true);
             }
         }
@@ -92,6 +188,7 @@ public class UIInterface : MonoBehaviour
             else
             {
                 Destroy(focusObj);
+                LevelManager.totalMoney += focusObj.GetComponent<Shoot>().turretData.price;
             }
 
             focusObj = null;

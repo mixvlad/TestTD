@@ -20,23 +20,25 @@ public class FindHome : MonoBehaviour
         ai.speed = enemyData.speed;
         currentHealth = enemyData.maxHealth;
         ai.SetDestination(Destination.position);
-        Debug.Log($"Agent started moving to: {Destination.position}");
         healthBar = Instantiate(healthBarPrefab, transform.position, Quaternion.identity);
         healthBar.transform.SetParent(GameObject.Find("Canvas").transform);
         healthBar.maxValue = enemyData.maxHealth;
         healthBar.value = enemyData.maxHealth;
     }
 
-    public void TakeDamage(float damage)
+    public bool TakeDamageAndCheckIfDead(float damage)
     {
         currentHealth -= damage;
         healthBar.value = currentHealth;
         if (currentHealth <= 0)
         {
+            LevelManager.totalMoney += enemyData.reward;
             LevelManager.EnemyKilled(transform.position + Vector3.up * 1f);
             Destroy(healthBar.gameObject);
             Destroy(gameObject);
+            return true;
         }
+        return false;
     }
 
     // Update is called once per frame

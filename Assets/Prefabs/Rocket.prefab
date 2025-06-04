@@ -321,7 +321,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 738f31e06cf7c4e8e908c3464eebe456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 0}
+  particleSystems: []
+  particleCount: 100
   core: {fileID: 2697617952663958069}
   gun: {fileID: 3542408428170973012}
   turretData: {fileID: 11400000, guid: b1ad93c320ef749a3a4eb71f8655de28, type: 2}

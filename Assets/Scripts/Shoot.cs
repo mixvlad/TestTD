@@ -22,6 +22,7 @@ public class Shoot : MonoBehaviour
     private float deltaTime;
     private Quaternion coreStartRotation;
     private Quaternion gunStartRotation;
+    private float aimToleranceDegrees = 100f;
 
     void Start()
     {
@@ -55,6 +56,8 @@ public class Shoot : MonoBehaviour
         if (currentTarget == other.gameObject)
         {
             currentTarget = null;
+            currentTargetScript = null;
+            FindBestTarget();
         }
     }
 
@@ -80,10 +83,60 @@ public class Shoot : MonoBehaviour
                 }
                 if (Random.Range(0, 100) < turretData.accuracy)
                 {
-                    currentTargetScript.TakeDamage(turretData.damage);
+                    if (currentTargetScript.TakeDamageAndCheckIfDead(turretData.damage))
+                    {
+                        FindBestTarget();
+                    }
                 }
             }
         }
+    }
+
+    void FindBestTarget()
+    {
+        Debug.Log("FindBestTarget");
+        GameObject[] allEnemies = GameObject.FindGameObjectsWithTag("enemy");
+        GameObject bestTarget = null;
+        float minAngle = float.MaxValue;
+        float radius = GetComponent<SphereCollider>().radius * transform.localScale.x; // если радиус масштабируется
+
+        foreach (var enemy in allEnemies)
+        {
+            if (currentTarget != null && enemy == currentTarget)
+                continue;
+            float distance = Vector3.Distance(transform.position, enemy.transform.position);
+            if (distance <= radius)
+            {
+                Vector3 directionToEnemy = enemy.transform.position - transform.position;
+                float angle = Vector3.Angle(coreTransform.forward, directionToEnemy);
+                if (angle < minAngle)
+                {
+                    minAngle = angle;
+                    bestTarget = enemy;
+                }
+            }
+        }
+
+        Debug.Log("bestTarget: " + bestTarget);
+        if (bestTarget != null)
+        {
+            currentTarget = bestTarget;
+            currentTargetScript = currentTarget.GetComponent<FindHome>();
+        }
+        else
+        {
+            currentTarget = null;
+            currentTargetScript = null;
+        }
+    }
+
+    bool IsGunAimedAtTarget()
+    {
+        if (currentTarget == null) return false;
+
+        Vector3 directionToTarget = (currentTarget.transform.position - gunTransform.position).normalized;
+        float angle = Vector3.Angle(gunTransform.forward, directionToTarget);
+        return angle <= aimToleranceDegrees;
     }
 
     // Update is called once per frame
@@ -119,7 +172,7 @@ public class Shoot : MonoBehaviour
             gunTransform.localRotation = Quaternion.Slerp(gunTransform.localRotation, gunTargetRotation, deltaTime);
         }
 
-        if (gunTransform.localRotation.eulerAngles.x > 10 && gunTransform.localRotation.eulerAngles.x < 170)
+        if (IsGunAimedAtTarget())
         {
             ShootTarget();
         }
